@@ -1,18 +1,21 @@
 const { Client, MessageMedia } = require('whatsapp-web.js');
 const express = require('express');
- const cors = require('cors')
- const { Buttons, List } = require('whatsapp-web.js');
+const cors = require('cors')
+const { Buttons, List } = require('whatsapp-web.js');
 
 const socketIO = require('socket.io');
 const qrcode = require('qrcode');
-const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
 const port = process.env.PORT || 8000;
+var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
-const server = http.createServer(app);
+const server = https.createServer(credentials, app);
 const io = socketIO(server);
 app.use(cors())
 app.use(express.json());
@@ -29,12 +32,12 @@ app.get('/', (req, res) => {
 const sessions = [];
 const SESSIONS_FILE = './whatsapp-sessions.json';
 
-const createSessionsFileIfNotExists = function() {
+const createSessionsFileIfNotExists = function () {
   if (!fs.existsSync(SESSIONS_FILE)) {
     try {
       fs.writeFileSync(SESSIONS_FILE, JSON.stringify([]));
       console.log('Sessions file created successfully.');
-    } catch(err) {
+    } catch (err) {
       console.log('Failed to create sessions file: ', err);
     }
   }
@@ -42,19 +45,19 @@ const createSessionsFileIfNotExists = function() {
 
 createSessionsFileIfNotExists();
 
-const setSessionsFile = function(sessions) {
-  fs.writeFile(SESSIONS_FILE, JSON.stringify(sessions), function(err) {
+const setSessionsFile = function (sessions) {
+  fs.writeFile(SESSIONS_FILE, JSON.stringify(sessions), function (err) {
     if (err) {
       console.log(err);
     }
   });
 }
 
-const getSessionsFile = function() {
+const getSessionsFile = function () {
   return JSON.parse(fs.readFileSync(SESSIONS_FILE));
 }
 
-const createSession = function(id, description) {
+const createSession = function (id, description) {
   console.log('Creating session: ' + id);
   const SESSION_FILE_PATH = `./whatsapp-session-${id}.json`;
   let sessionCfg;
@@ -90,6 +93,26 @@ const createSession = function(id, description) {
     });
   });
 
+
+  client.on('message', msg => {
+    console.log(msg)
+    if (msg.type == "list_response") {
+      if (msg.body == "Sim") {
+        msg.reply('Ok, vamos te passar maiores informações sobre o paciente😃')
+        client.sendMessage("120363022690336998@g.us", msg.selectedRowId).then(response => {
+
+        });
+      }
+      if (msg.body == "Não") {
+        msg.reply('Ok, agradeço pelo retorno, surgindo novo paciente próximo a sua área de atendimento entraremos em contato😃')
+
+      }
+    }
+  });
+
+
+
+
   client.on('ready', () => {
     io.emit('ready', { id: id });
     io.emit('message', { id: id, text: 'Whatsapp is ready!' });
@@ -104,22 +127,22 @@ const createSession = function(id, description) {
     io.emit('authenticated', { id: id });
     io.emit('message', { id: id, text: 'Whatsapp is authenticated!' });
     sessionCfg = session;
-    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function(err) {
-      if (err) {
-        console.error(err);
-      }
-    });
+    // fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function(err) {
+    //   if (err) {
+    //     console.error(err);
+    //   }
+    // });
   });
 
-  client.on('auth_failure', function(session) {
+  client.on('auth_failure', function (session) {
     io.emit('message', { id: id, text: 'Auth failure, restarting...' });
   });
 
   client.on('disconnected', (reason) => {
     io.emit('message', { id: id, text: 'Whatsapp is disconnected!' });
-    fs.unlinkSync(SESSION_FILE_PATH, function(err) {
-        if(err) return console.log(err);
-        console.log('Session file deleted!');
+    fs.unlinkSync(SESSION_FILE_PATH, function (err) {
+      if (err) return console.log(err);
+      console.log('Session file deleted!');
     });
     client.destroy();
     client.initialize();
@@ -154,7 +177,7 @@ const createSession = function(id, description) {
   }
 }
 
-const init = function(socket) {
+const init = function (socket) {
   const savedSessions = getSessionsFile();
 
   if (savedSessions.length > 0) {
@@ -171,10 +194,10 @@ const init = function(socket) {
 init();
 
 // Socket IO
-io.on('connection', function(socket) {
+io.on('connection', function (socket) {
   init(socket);
 
-  socket.on('create-session', function(data) {
+  socket.on('create-session', function (data) {
     console.log('Create session: ' + data.id);
     createSession(data.id, data.description);
   });
@@ -226,7 +249,7 @@ io.on('connection', function(socket) {
 // Send message
 app.post('/send-message', (req, res) => {
   const sender = req.body.sender;
-  const number = phoneNumberFormatter("55"+req.body.number);
+  const number = phoneNumberFormatter("55" + req.body.number);
   const message = req.body.message;
 
   const client = sessions.find(sess => sess.id == sender).client;
@@ -244,14 +267,14 @@ app.post('/send-message', (req, res) => {
   });
 });
 
-server.listen(port, function() {
+server.listen(port, function () {
   console.log('App running on *: ' + port);
 });
 
 
 
 app.post('/send-button', (req, res) => {
- 
+
   const number = phoneNumberFormatter("55" + req.body.number);
   const message = req.body.message;
   const id = req.body.id;
@@ -259,10 +282,10 @@ app.post('/send-button', (req, res) => {
   const button2 = req.body.button2;
   const texto = req.body.texto;
   const sender = req.body.sender;
-   
+
   const client = sessions.find(sess => sess.id == sender).client;
- 
-  client.sendMessage(number, new Buttons(message, [{ id: id, body: button1 }, { body: button2 }], texto), { caption: message }).then(response => {
+  console.log(id)
+  client.sendMessage(number, new List(' ', 'Clique aqui para selecionar', [{ title: 'Selecione a ação desejada', rows: [{ id: id, title: 'Sim', description: '' }, { title: 'Não' }] }], 'Selecione SIM ou NÃO', ''), { caption: '' }).then(response => {
     res.status(200).json({
       status: true,
       response: response
@@ -444,10 +467,10 @@ app.post('/send-button', (req, res) => {
 // });
 
 
- const checkRegisteredNumber = async function (number) {
-   const isRegistered = await client.isRegisteredUser(number);
-   return isRegistered;
- }
+const checkRegisteredNumber = async function (number) {
+  const isRegistered = await client.isRegisteredUser(number);
+  return isRegistered;
+}
 
 // // Send message
 // app.post('/send-message', [
