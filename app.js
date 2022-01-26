@@ -5,17 +5,19 @@ const { Buttons, List } = require('whatsapp-web.js');
 
 const socketIO = require('socket.io');
 const qrcode = require('qrcode');
-const https = require('https');
+const http = require('http');
 const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
 const port = 2096;
-var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
-var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
-var credentials = { key: privateKey, cert: certificate };
+ var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+ var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+ var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
 const server = https.createServer(credentials, app);
+// const server = http.createServer(app);
+
 const io = socketIO(server);
 app.use(cors())
 app.use(express.json());
@@ -64,24 +66,37 @@ const createSession = function (id, description) {
   if (fs.existsSync(SESSION_FILE_PATH)) {
     sessionCfg = require(SESSION_FILE_PATH);
   }
-
   const client = new Client({
-    restartOnAuthFail: true,
     puppeteer: {
       headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',
-        '--single-process', // <- this one doesn't works in Windows
-        '--disable-gpu'
-      ],
-    },
-    session: sessionCfg
+      // args: [
+      //   '--no-sandbox',
+      //         '--disable-setuid-sandbox',
+      //         '--disable-dev-shm-usage',
+      //        '--disable-accelerated-2d-canvas',
+      //          '--disable-gpu'
+
+      // ],
+      clientId: sessionCfg
+    }
   });
+  // const client = new Client({
+  //   restartOnAuthFail: true,
+  //   puppeteer: {
+  //     headless: true,
+  //     args: [
+  //       '--no-sandbox',
+  //       '--disable-setuid-sandbox',
+  //       '--disable-dev-shm-usage',
+  //       '--disable-accelerated-2d-canvas',
+  //       '--no-first-run',
+  //       '--no-zygote',
+  //       '--single-process', // <- this one doesn't works in Windows
+  //       '--disable-gpu'
+  //     ],
+  //   },
+  //   session: sessionCfg
+  // });
 
   client.initialize();
 
@@ -89,6 +104,7 @@ const createSession = function (id, description) {
     console.log('QR RECEIVED', qr);
     qrcode.toDataURL(qr, (err, url) => {
       io.emit('qr', { id: id, src: url });
+      console.log("QRCode Entrou " + url);
       io.emit('message', { id: id, text: 'QR Code received, scan please!' });
     });
   });
@@ -113,7 +129,7 @@ const createSession = function (id, description) {
 
 
 
-  client.on('ready', () => {
+  client.on('ready', () => {  
     io.emit('ready', { id: id });
     io.emit('message', { id: id, text: 'Whatsapp is ready!' });
 
