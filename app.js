@@ -5,7 +5,7 @@ const { Buttons, List } = require('whatsapp-web.js');
 
 const socketIO = require('socket.io');
 const qrcode = require('qrcode');
-const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
