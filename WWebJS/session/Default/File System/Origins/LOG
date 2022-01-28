@@ -1,4 +1,0 @@
-2022/01/26-08:57:43.955 558 Log #3: 6 ops saved to Table #4 OK
-2022/01/26-08:57:44.956 558 Archiving C:\Projetos\Fisiolar\robowhats\robo-fisaep\WWebJS\session\Default\File System\Origins/000003.log: IO error: C:\Projetos\Fisiolar\robowhats\robo-fisaep\WWebJS\session\Default\File System\Origins/000003.log: Could not rename file: File currently in use. (ChromeMethodBFE: 14::RenameFile::2)
-2022/01/26-08:57:44.956 558 Table #4: 6 entries OK
-2022/01/26-08:57:45.968 558 Archiving C:\Projetos\Fisiolar\robowhats\robo-fisaep\WWebJS\session\Default\File System\Origins/MANIFEST-000001: IO error: C:\Projetos\Fisiolar\robowhats\robo-fisaep\WWebJS\session\Default\File System\Origins/MANIFEST-000001: Could not rename file: File currently in use. (ChromeMethodBFE: 14::RenameFile::2)

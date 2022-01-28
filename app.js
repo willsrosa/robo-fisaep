@@ -6,17 +6,19 @@ const { Buttons, List } = require('whatsapp-web.js');
 const socketIO = require('socket.io');
 const qrcode = require('qrcode');
 const https = require('https');
+const http = require('http');
+
 const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
 const port = 2096;
-var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
-var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
-var credentials = { key: privateKey, cert: certificate };
+// var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+// var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+// var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
-const server = https.createServer(credentials, app);
-// const server = http.createServer(app);
+// const server = https.createServer(credentials, app);
+ const server = http.createServer(app);
 
 const io = socketIO(server);
 app.use(cors())
@@ -114,10 +116,9 @@ const createSession = function (id, description) {
     console.log(msg)
     if (msg.type == "list_response") {
       if (msg.body == "Sim") {
+        console.log("entrou no sim ")
         msg.reply('Ok, vamos te passar maiores informações sobre o paciente😃')
-        client.sendMessage("120363022690336998@g.us", msg.selectedRowId).then(response => {
-
-        });
+        client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
       }
       if (msg.body == "Não") {
         msg.reply('Ok, agradeço pelo retorno, surgindo novo paciente próximo a sua área de atendimento entraremos em contato😃')
@@ -267,10 +268,11 @@ app.post('/send-message', (req, res) => {
   const sender = req.body.sender;
   const number = phoneNumberFormatter("55" + req.body.number);
   const message = req.body.message;
-
+console.log(message)
   const client = sessions.find(sess => sess.id == sender).client;
 
   client.sendMessage(number, message).then(response => {
+    console.log(response)
     res.status(200).json({
       status: true,
       response: response
