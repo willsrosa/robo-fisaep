@@ -12,13 +12,13 @@ const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
 const port = 2096;
-// var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
-// var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
-// var credentials = { key: privateKey, cert: certificate };
+ var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+ var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+ var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
-// const server = https.createServer(credentials, app);
- const server = http.createServer(app);
+ const server = https.createServer(credentials, app);
+//const server = http.createServer(app);
 
 const io = socketIO(server);
 app.use(cors())
