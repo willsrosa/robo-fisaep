@@ -17,19 +17,18 @@ const port = 2096;
   var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
-app.use(cors())
-app.options('*', cors());
 const server = https.createServer(credentials, app);
 //const server = http.createServer(app);
 
 const io = socketIO(server);
-io.origins(['*']);
+io.set('origins', '*:*');
 
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
-
+app.use(cors())
+app.options('*', cors());
 app.get('/', (req, res) => {
   res.sendFile('index-multiple-device.html', {
     root: __dirname
