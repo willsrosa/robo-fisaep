@@ -21,6 +21,8 @@ const server = https.createServer(credentials, app);
 //const server = http.createServer(app);
 
 const io = socketIO(server);
+io.set('origins', '*:*');
+
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
