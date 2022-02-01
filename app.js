@@ -12,9 +12,9 @@ const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
 const port = 2096;
-  var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
-  var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
-  var credentials = { key: privateKey, cert: certificate };
+ var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+ var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+ var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
 const server = https.createServer(credentials, app);
@@ -101,7 +101,7 @@ const createSession = function (id, description) {
   //   },
   //   session: sessionCfg
   // });
- 
+
   client.initialize();
 
   client.on('qr', (qr) => {
@@ -120,6 +120,25 @@ const createSession = function (id, description) {
       if (msg.body == "Sim") {
         console.log("entrou no sim ")
         msg.reply('Ok, vamos te passar maiores informações sobre o paciente😃')
+        console.log("passou aqui")
+        if (msg.selectedRowId.toUpperCase().includes("LARISSA DANTAS") || msg.selectedRowId.toUpperCase().includes("ISADORA RIBEIRO") || msg.selectedRowId.toUpperCase().includes("LAURA LUPPI")) {
+          client.sendMessage("5517981071145@c.us", msg.selectedRowId);
+        }
+        if (msg.selectedRowId.toUpperCase().includes("ANNE")) {
+          client.sendMessage("5517981520077@c.us", msg.selectedRowId);
+        }
+        if (msg.selectedRowId.toUpperCase().includes("BEATRIZ NALIM") || msg.selectedRowId.toUpperCase().includes("JULIANA SOUZA") || msg.selectedRowId.toUpperCase().includes("THAIS ALVES")) {
+          client.sendMessage("5517981120533@c.us", msg.selectedRowId);
+        }
+        if (msg.selectedRowId.toUpperCase().includes("BIANCA NASCIMENTO") || msg.selectedRowId.toUpperCase().includes("THAIS RODRIGUES") || msg.selectedRowId.toUpperCase().includes("THAIS ALVES")) {
+          client.sendMessage("5517996144442@c.us", msg.selectedRowId);
+        }
+        if (msg.selectedRowId.toUpperCase().includes("TAYNA SCARANELLO") || msg.selectedRowId.toUpperCase().includes("HAYNE SEJANI") || msg.selectedRowId.toUpperCase().includes("BENE SOUZA")) {
+          client.sendMessage("5517996248401@c.us", msg.selectedRowId);
+        }
+        if (msg.selectedRowId.toUpperCase().includes("NETO FERREIRA")) {
+          client.sendMessage("5517981330707@g.us", msg.selectedRowId);
+        }
         client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
       }
       if (msg.body == "Não") {
@@ -270,7 +289,7 @@ app.post('/send-message', (req, res) => {
   const sender = req.body.sender;
   const number = phoneNumberFormatter("55" + req.body.number);
   const message = req.body.message;
-console.log(message)
+  console.log(message)
   const client = sessions.find(sess => sess.id == sender).client;
 
   client.sendMessage(number, message).then(response => {
