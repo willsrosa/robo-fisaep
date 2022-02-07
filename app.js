@@ -127,7 +127,7 @@ const createSession = function (id, description) {
         if (msg.selectedRowId.toUpperCase().includes("ANNE")) {
           client.sendMessage("5517981520077@c.us", msg.selectedRowId);
         }
-        if (msg.selectedRowId.toUpperCase().includes("BEATRIZ NALIM") || msg.selectedRowId.toUpperCase().includes("JULIANA SOUZA") || msg.selectedRowId.toUpperCase().includes("THAIS ALVES")) {
+        if (msg.selectedRowId.toUpperCase().includes("BEATRIZ NALIM") || msg.selectedRowId.toUpperCase().includes("JULIANA SOUZA") || msg.selectedRowId.toUpperCase().includes("THAIS ALVES") || msg.selectedRowId.toUpperCase().includes("ANNA BEATRIZ")) {
           client.sendMessage("5517981120533@c.us", msg.selectedRowId);
         }
         if (msg.selectedRowId.toUpperCase().includes("BIANCA NASCIMENTO") || msg.selectedRowId.toUpperCase().includes("THAIS RODRIGUES") || msg.selectedRowId.toUpperCase().includes("THAIS ALVES")) {
