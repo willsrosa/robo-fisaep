@@ -137,8 +137,14 @@ const createSession = function (id, description) {
           client.sendMessage("5517996248401@c.us", msg.selectedRowId);
         }
         if (msg.selectedRowId.toUpperCase().includes("NETO FERREIRA")) {
-          client.sendMessage("5517981330707@g.us", msg.selectedRowId);
+          client.sendMessage("5517981330707@c.us", msg.selectedRowId);
         }
+        if (msg.selectedRowId.toUpperCase().includes("WILLIAN ROSA")) {
+          client.sendMessage("5517982080440@c.us", msg.selectedRowId);
+        }
+
+
+        
         client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
       }
       if (msg.body == "Não") {
