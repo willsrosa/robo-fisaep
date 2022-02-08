@@ -12,13 +12,13 @@ const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
 const port = 2096;
-//  var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
-//  var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
-//  var credentials = { key: privateKey, cert: certificate };
+  var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+  var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+  var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
-//const server = https.createServer(credentials, app);
-const server = http.createServer(app);
+const server = https.createServer(credentials, app);
+//const server = http.createServer(app);
 
 const io = socketIO(server);
 io.set('origins', '*:*');
@@ -142,7 +142,6 @@ const createSession = function (id, description) {
             client.sendMessage("120363040378100634@g.us", msg.selectedRowId);
           }
 
-
           if (msg.selectedRowId.toUpperCase().includes("ANNE OLIVEIRA")){
             client.sendMessage("120363039377213562@g.us", msg.selectedRowId);
           }
@@ -157,10 +156,6 @@ const createSession = function (id, description) {
           if (msg.selectedRowId.toUpperCase().includes("HAYNE SEJANI")){
             client.sendMessage("120363023276101126@g.us", msg.selectedRowId);
           }
-
-
-
-
         // console.log("entrou no sim ")
         // msg.reply('Ok, vamos te passar maiores informações sobre o paciente😃')
         // console.log("passou aqui")
