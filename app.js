@@ -12,13 +12,13 @@ const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
 const port = 2096;
- var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
- var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
- var credentials = { key: privateKey, cert: certificate };
+//  var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+//  var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+//  var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
-const server = https.createServer(credentials, app);
-//const server = http.createServer(app);
+//const server = https.createServer(credentials, app);
+const server = http.createServer(app);
 
 const io = socketIO(server);
 io.set('origins', '*:*');
@@ -118,34 +118,83 @@ const createSession = function (id, description) {
     console.log(msg)
     if (msg.type == "list_response") {
       if (msg.body == "Sim") {
-        console.log("entrou no sim ")
-        msg.reply('Ok, vamos te passar maiores informações sobre o paciente😃')
-        console.log("passou aqui")
-        if (msg.selectedRowId.toUpperCase().includes("LARISSA DANTAS") || msg.selectedRowId.toUpperCase().includes("ISADORA RIBEIRO") || msg.selectedRowId.toUpperCase().includes("LAURA LUPPI")) {
-          client.sendMessage("5517981071145@c.us", msg.selectedRowId);
-        }
-        if (msg.selectedRowId.toUpperCase().includes("ANNE")) {
-          client.sendMessage("5517981520077@c.us", msg.selectedRowId);
-        }
-        if (msg.selectedRowId.toUpperCase().includes("BEATRIZ NALIM") || msg.selectedRowId.toUpperCase().includes("JULIANA SOUZA") || msg.selectedRowId.toUpperCase().includes("THAIS ALVES") || msg.selectedRowId.toUpperCase().includes("ANNA BEATRIZ")) {
-          client.sendMessage("5517981120533@c.us", msg.selectedRowId);
-        }
-        if (msg.selectedRowId.toUpperCase().includes("BIANCA NASCIMENTO") || msg.selectedRowId.toUpperCase().includes("THAIS RODRIGUES") || msg.selectedRowId.toUpperCase().includes("THAIS ALVES")) {
-          client.sendMessage("5517996144442@c.us", msg.selectedRowId);
-        }
-        if (msg.selectedRowId.toUpperCase().includes("TAYNA SCARANELLO") || msg.selectedRowId.toUpperCase().includes("HAYNE SEJANI") || msg.selectedRowId.toUpperCase().includes("BENE SOUZA")) {
-          client.sendMessage("5517996248401@c.us", msg.selectedRowId);
-        }
-        if (msg.selectedRowId.toUpperCase().includes("NETO FERREIRA")) {
-          client.sendMessage("5517981330707@c.us", msg.selectedRowId);
-        }
-        if (msg.selectedRowId.toUpperCase().includes("WILLIAN ROSA")) {
-          client.sendMessage("5517982080440@c.us", msg.selectedRowId);
-        }
+          msg.reply('Ok, vamos te passar maiores informações sobre o paciente😃')
+          client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
+
+          if (msg.selectedRowId.toUpperCase().includes("THAIS ALVES")){
+            client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
+          }
 
 
-        
-        client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
+          if (msg.selectedRowId.toUpperCase().includes("BEATRIZ NALIN")){
+            client.sendMessage("120363038291296660@g.us", msg.selectedRowId);
+          }
+
+          if (msg.selectedRowId.toUpperCase().includes("BIANCA NASCIMENTO")){
+            client.sendMessage("120363039945172091@g.us", msg.selectedRowId);
+          }
+
+          if (msg.selectedRowId.toUpperCase().includes("THAIS RODRIGUES")){
+            client.sendMessage("120363024013484590@g.us", msg.selectedRowId);
+          }
+
+          if (msg.selectedRowId.toUpperCase().includes("JULIANA SOUZA")){
+            client.sendMessage("120363040378100634@g.us", msg.selectedRowId);
+          }
+
+
+          if (msg.selectedRowId.toUpperCase().includes("ANNE OLIVEIRA")){
+            client.sendMessage("120363039377213562@g.us", msg.selectedRowId);
+          }
+
+
+          if (msg.selectedRowId.toUpperCase().includes("ANNA BEATRIZ")){
+            client.sendMessage("120363038291296660@g.us", msg.selectedRowId);
+          }
+          if (msg.selectedRowId.toUpperCase().includes("BENE SOUZA")){
+            client.sendMessage("120363023390637872@g.us", msg.selectedRowId);
+          }
+          if (msg.selectedRowId.toUpperCase().includes("HAYNE SEJANI")){
+            client.sendMessage("120363023276101126@g.us", msg.selectedRowId);
+          }
+
+
+
+
+        // console.log("entrou no sim ")
+        // msg.reply('Ok, vamos te passar maiores informações sobre o paciente😃')
+        // console.log("passou aqui")
+        // if (msg.selectedRowId.toUpperCase().includes("LARISSA DANTAS") || msg.selectedRowId.toUpperCase().includes("ISADORA RIBEIRO") || msg.selectedRowId.toUpperCase().includes("LAURA LUPPI")) {
+        //   client.sendMessage("5517981071145@c.us", msg.selectedRowId);
+        // }
+        // if (msg.selectedRowId.toUpperCase().includes("ANNE")) {
+        //   client.sendMessage("5517981520077@c.us", msg.selectedRowId);
+        //   client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
+
+        // }
+        // if (msg.selectedRowId.toUpperCase().includes("BEATRIZ NALIM") || msg.selectedRowId.toUpperCase().includes("JULIANA SOUZA") || msg.selectedRowId.toUpperCase().includes("THAIS ALVES") || msg.selectedRowId.toUpperCase().includes("ANNA BEATRIZ")) {
+        //   client.sendMessage("5517981120533@c.us", msg.selectedRowId);
+        //   client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
+
+        // }
+        // if (msg.selectedRowId.toUpperCase().includes("BIANCA NASCIMENTO") || msg.selectedRowId.toUpperCase().includes("THAIS RODRIGUES") || msg.selectedRowId.toUpperCase().includes("THAIS ALVES")) {
+        //   client.sendMessage("5517996144442@c.us", msg.selectedRowId);
+        //   client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
+        // }
+        // if (msg.selectedRowId.toUpperCase().includes("TAYNA SCARANELLO") || msg.selectedRowId.toUpperCase().includes("HAYNE SEJANI") || msg.selectedRowId.toUpperCase().includes("BENE SOUZA")) {
+        //   client.sendMessage("5517996248401@c.us", msg.selectedRowId);
+        //   client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
+
+        // }
+        // if (msg.selectedRowId.toUpperCase().includes("NETO FERREIRA")) {
+        //   client.sendMessage("5517981330707@c.us", msg.selectedRowId);
+        //   client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
+        // }
+        // if (msg.selectedRowId.toUpperCase().includes("WILLIAN ROSA")) {
+        //   client.sendMessage("5517982080440@c.us", msg.selectedRowId);
+        //   client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
+
+        // }
       }
       if (msg.body == "Não") {
         msg.reply('Ok, agradeço pelo retorno, surgindo novo paciente próximo a sua área de atendimento entraremos em contato😃')
