@@ -12,13 +12,13 @@ const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
 const port = 2096;
-  var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
-  var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
-  var credentials = { key: privateKey, cert: certificate };
+  // var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+  // var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+  // var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
-const server = https.createServer(credentials, app);
-//const server = http.createServer(app);
+//const server = https.createServer(credentials, app);
+const server = http.createServer(app);
 
 const io = socketIO(server);
 io.set('origins', '*:*');
@@ -148,7 +148,7 @@ const createSession = function (id, description) {
 
 
           if (msg.selectedRowId.toUpperCase().includes("ANNA BEATRIZ")){
-            client.sendMessage("120363038291296660@g.us", msg.selectedRowId);
+            client.sendMessage("120363038774243623@g.us", msg.selectedRowId);
           }
           if (msg.selectedRowId.toUpperCase().includes("BENE SOUZA")){
             client.sendMessage("120363023390637872@g.us", msg.selectedRowId);
