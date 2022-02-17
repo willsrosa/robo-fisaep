@@ -192,7 +192,7 @@ const createSession = function (id, description) {
 
       }
     }else{
-      // msg.reply('Sou uma inteligência artificial, não entendi sua mensagem por favor selecione o botão enviado pelo operador!😃')
+      msg.reply('Sou uma inteligência artificial, não entendi sua mensagem por favor selecione o botão enviado pelo operador!😃')
 
 
     }
