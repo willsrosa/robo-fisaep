@@ -12,13 +12,13 @@ const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
 const port = 2096;
-   var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
-   var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
-   var credentials = { key: privateKey, cert: certificate };
+//  var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+//  var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+//  var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
-const server = https.createServer(credentials, app);
-//const server = http.createServer(app);
+//const server = https.createServer(credentials, app);
+const server = http.createServer(app);
 
 const io = socketIO(server);
 io.set('origins', '*:*');
@@ -108,54 +108,50 @@ const createSession = function (id, description) {
     console.log('QR RECEIVED', qr);
     qrcode.toDataURL(qr, (err, url) => {
       io.emit('qr', { id: id, src: url });
-      console.log("QRCode Entrou " + url);
       io.emit('message', { id: id, text: 'QR Code received, scan please!' });
     });
   });
 
 
-  client.on('message', msg => {
+  client.on('message', async (msg) => {
     console.log(msg)
     if (msg.type == "list_response") {
-      if (msg.body == "Sim") {
-          msg.reply('Ok, vamos te passar maiores informações sobre o paciente😃')
+       if (msg.body == "Sim") {
+        msg.reply('Ok, vamos te passar maiores informações sobre o paciente😃')
+        client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
+
+        if (msg.selectedRowId.toUpperCase().includes("THAIS ALVES")) {
           client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
-
-          if (msg.selectedRowId.toUpperCase().includes("THAIS ALVES")){
-            client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
-          }
+        }
 
 
-          if (msg.selectedRowId.toUpperCase().includes("BEATRIZ NALIN")){
-            client.sendMessage("120363038291296660@g.us", msg.selectedRowId);
-          }
+        if (msg.selectedRowId.toUpperCase().includes("BEATRIZ NALIM")) {
+          client.sendMessage("120363038291296660@g.us", msg.selectedRowId);
+        }
 
-          if (msg.selectedRowId.toUpperCase().includes("BIANCA NASCIMENTO")){
-            client.sendMessage("120363039945172091@g.us", msg.selectedRowId);
-          }
+        if (msg.selectedRowId.toUpperCase().includes("BIANCA NASCIMENTO")) {
+          client.sendMessage("120363039945172091@g.us", msg.selectedRowId);
+        }
 
-          if (msg.selectedRowId.toUpperCase().includes("THAIS RODRIGUES")){
-            client.sendMessage("120363024013484590@g.us", msg.selectedRowId);
-          }
+        if (msg.selectedRowId.toUpperCase().includes("THAIS RODRIGUES")) {
+          client.sendMessage("120363024013484590@g.us", msg.selectedRowId);
+        }
 
-          if (msg.selectedRowId.toUpperCase().includes("JULIANA SOUZA")){
-            client.sendMessage("120363040378100634@g.us", msg.selectedRowId);
-          }
-
-          if (msg.selectedRowId.toUpperCase().includes("ANNE OLIVEIRA")){
-            client.sendMessage("120363039377213562@g.us", msg.selectedRowId);
-          }
-
-
-          if (msg.selectedRowId.toUpperCase().includes("ANNA BEATRIZ")){
-            client.sendMessage("120363038774243623@g.us", msg.selectedRowId);
-          }
-          if (msg.selectedRowId.toUpperCase().includes("BENE SOUZA")){
-            client.sendMessage("120363023390637872@g.us", msg.selectedRowId);
-          }
-          if (msg.selectedRowId.toUpperCase().includes("HAYNE SEJANI")){
-            client.sendMessage("120363023276101126@g.us", msg.selectedRowId);
-          }
+        if (msg.selectedRowId.toUpperCase().includes("JULIANA SOUZA")) {
+          client.sendMessage("120363040378100634@g.us", msg.selectedRowId);
+        }
+        if (msg.selectedRowId.toUpperCase().includes("ANNE OLIVEIRA")) {
+          client.sendMessage("120363039377213562@g.us", msg.selectedRowId);
+        }
+        if (msg.selectedRowId.toUpperCase().includes("ANNA BEATRIZ")) {
+          client.sendMessage("120363038774243623@g.us", msg.selectedRowId);
+        }
+        if (msg.selectedRowId.toUpperCase().includes("BENE SOUZA")) {
+          client.sendMessage("120363023390637872@g.us", msg.selectedRowId);
+        }
+        if (msg.selectedRowId.toUpperCase().includes("HAYNE SEJANI")) {
+          client.sendMessage("120363023276101126@g.us", msg.selectedRowId);
+        }
         // console.log("entrou no sim ")
         // msg.reply('Ok, vamos te passar maiores informações sobre o paciente😃')
         // console.log("passou aqui")
@@ -191,11 +187,75 @@ const createSession = function (id, description) {
 
         // }
       }
-      if (msg.body == "Não") {
+      else if (msg.body == "Não") {
         msg.reply('Ok, agradeço pelo retorno, surgindo novo paciente próximo a sua área de atendimento entraremos em contato😃')
 
       }
+    }else{
+      // msg.reply('Sou uma inteligência artificial, não entendi sua mensagem por favor selecione o botão enviado pelo operador!😃')
+
+
     }
+    //  else {
+    //   // const chat = client.getChatById(msg.from).then(response =>{
+    //   //   var messages = response.fetchMessages().then(response =>{
+    //   //     console.log(messages.body);
+    //   //   });
+
+    //   // });
+    //   let list = [];
+    //   const chats = await client.getChats()
+    //   const messages = await chats[0].fetchMessages();
+    //   for (const obj of messages) {
+    //     console.log(obj.author)
+    //     if (obj.type == "list") {
+    //       list.push(obj);
+    //     }
+    //   }
+    //   if (list.length > 0) {
+    //     let msgobj = list.pop();
+ 
+    //     msg.reply('Ok, vou passar sua mensagem para um de nossos analista 😃')
+
+    //     client.sendMessage("120363022690336998@g.us", msgobj.selectedRowId);
+
+    //     if (msg.selectedRowId.toUpperCase().includes("THAIS ALVES")) {
+    //       client.sendMessage("120363022690336998@g.us", msgobj.selectedRowId);
+    //     }
+
+
+    //     if (msg.selectedRowId.toUpperCase().includes("BEATRIZ NALIN")) {
+    //       client.sendMessage("120363038291296660@g.us", msgobj.selectedRowId);
+    //     }
+
+    //     if (msg.selectedRowId.toUpperCase().includes("BIANCA NASCIMENTO")) {
+    //       client.sendMessage("120363039945172091@g.us", msgobj.selectedRowId);
+    //     }
+
+    //     if (msg.selectedRowId.toUpperCase().includes("THAIS RODRIGUES")) {
+    //       client.sendMessage("120363024013484590@g.us", msgobj.selectedRowId);
+    //     }
+
+    //     if (msg.selectedRowId.toUpperCase().includes("JULIANA SOUZA")) {
+    //       client.sendMessage("120363040378100634@g.us", msgobj.selectedRowId);
+    //     }
+
+    //     if (msg.selectedRowId.toUpperCase().includes("ANNE OLIVEIRA")) {
+    //       client.sendMessage("120363039377213562@g.us", msgobj.selectedRowId);
+    //     }
+
+
+    //     if (msg.selectedRowId.toUpperCase().includes("ANNA BEATRIZ")) {
+    //       client.sendMessage("120363038774243623@g.us", msgobj.selectedRowId);
+    //     }
+    //     if (msg.selectedRowId.toUpperCase().includes("BENE SOUZA")) {
+    //       client.sendMessage("120363023390637872@g.us", msgobj.selectedRowId);
+    //     }
+    //     if (msg.selectedRowId.toUpperCase().includes("HAYNE SEJANI")) {
+    //       client.sendMessage("120363023276101126@g.us", msgobj.selectedRowId);
+    //     }
+    //   }
+    // }
   });
 
 
@@ -373,8 +433,7 @@ app.post('/send-button', (req, res) => {
   const sender = req.body.sender;
 
   const client = sessions.find(sess => sess.id == sender).client;
-  console.log(id)
-  client.sendMessage(number, new List(' ', 'Clique aqui para selecionar', [{ title: 'Selecione a ação desejada', rows: [{ id: id, title: 'Sim', description: '' }, { title: 'Não' }] }], 'Selecione SIM ou NÃO', ''), { caption: '' }).then(response => {
+   client.sendMessage(number, new List(' ', 'Clique aqui para selecionar', [{ title: 'Selecione a ação desejada', rows: [{ id: id, title: 'Sim', description: '' }, { title: 'Não' }] }], 'Selecione SIM ou NÃO', ''), { caption: '' }).then(response => {
     res.status(200).json({
       status: true,
       response: response
