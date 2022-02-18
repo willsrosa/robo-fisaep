@@ -12,9 +12,9 @@ const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
 const port = 2096;
-  var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
-  var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
-  var credentials = { key: privateKey, cert: certificate };
+   var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+   var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+   var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
 const server = https.createServer(credentials, app);
@@ -121,7 +121,7 @@ const createSession = function (id, description) {
         client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
 
         if (msg.selectedRowId.toUpperCase().includes("THAIS ALVES")) {
-          client.sendMessage("120363022690336998@g.us", msg.selectedRowId);
+          client.sendMessage("120363039348257323@g.us", msg.selectedRowId);
         }
 
 
@@ -152,6 +152,11 @@ const createSession = function (id, description) {
         if (msg.selectedRowId.toUpperCase().includes("HAYNE SEJANI")) {
           client.sendMessage("120363023276101126@g.us", msg.selectedRowId);
         }
+        if (msg.selectedRowId.toUpperCase().includes("PAMELA SOUZA")) {
+          client.sendMessage("120363039562349093@g.us", msg.selectedRowId);
+        }
+//
+
         // console.log("entrou no sim ")
         // msg.reply('Ok, vamos te passar maiores informações sobre o paciente😃')
         // console.log("passou aqui")
@@ -192,7 +197,7 @@ const createSession = function (id, description) {
 
       }
     }else{
-      msg.reply('Sou uma inteligência artificial, não entendi sua mensagem por favor selecione o botão enviado pelo operador!😃')
+      // msg.reply('Sou uma inteligência artificial, não entendi sua mensagem por favor selecione o botão enviado pelo operador!😃')
 
 
     }
