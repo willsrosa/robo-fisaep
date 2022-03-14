@@ -70,17 +70,22 @@ const createSession = function (id, description) {
   if (fs.existsSync(SESSION_FILE_PATH)) {
     sessionCfg = require(SESSION_FILE_PATH);
   }
+  // const client = new Client({
+  //   authStrategy: new LocalAuth(),
+  //   puppeteer: {
+
+  //     headless: true,
+  //     args: [
+  //       '--no-sandbox',
+  //     ], session: sessionCfg
+
+  //   }
+  // });
   const client = new Client({
     authStrategy: new LocalAuth(),
-    puppeteer: {
+    puppeteer: { headless: false }
+});
 
-      headless: true,
-      args: [
-        '--no-sandbox',
-      ], session: sessionCfg
-
-    }
-  });
   // const client = new Client({
   //   restartOnAuthFail: true,
   //   puppeteer: {
