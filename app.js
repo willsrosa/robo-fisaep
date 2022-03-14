@@ -74,7 +74,7 @@ const createSession = function (id, description) {
     authStrategy: new LocalAuth(),
     puppeteer: {
       headless: true,
-      args: ['--no-sandbox'],
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
       session: sessionCfg
 
     }
