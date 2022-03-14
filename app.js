@@ -87,7 +87,7 @@ const createSession = function (id, description) {
       args: [
         '--no-sandbox'
 ]
-     }
+     }, session: sessionCfg
 });
 
   // const client = new Client({
