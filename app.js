@@ -1,4 +1,4 @@
-const { Client, MessageMedia,LocalAuth } = require('whatsapp-web.js');
+const { Client, MessageMedia, LocalAuth } = require('whatsapp-web.js');
 const express = require('express');
 const cors = require('cors')
 const { Buttons, List } = require('whatsapp-web.js');
@@ -12,9 +12,9 @@ const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const axios = require('axios');
 const port = 2096;
-  var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
-  var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
-  var credentials = { key: privateKey, cert: certificate };
+var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
 //const server = https.createServer(credentials, app);
@@ -74,14 +74,15 @@ const createSession = function (id, description) {
     authStrategy: new LocalAuth(),
     puppeteer: {
       headless: true,
-      // args: [
-      //   '--no-sandbox',
-      //   //         '--disable-setuid-sandbox',
-      //   //         '--disable-dev-shm-usage',
-      //   //        '--disable-accelerated-2d-canvas',
-      //   //          '--disable-gpu'
+      args: [
+        '--no-sandbox',
+        //   //         '--disable-setuid-sandbox',
+        //   //         '--disable-dev-shm-usage',
+        //   //        '--disable-accelerated-2d-canvas',
+        //   //          '--disable-gpu'
+      ],
       session: sessionCfg
-      // ],
+
     }
   });
   // const client = new Client({
