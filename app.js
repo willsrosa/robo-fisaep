@@ -83,7 +83,7 @@ const createSession = function (id, description) {
   // });
   const client = new Client({
     authStrategy: new LocalAuth(),
-    puppeteer: { headless: false,
+    puppeteer: { headless: true,
       args: [
         '--no-sandbox'
 ]
