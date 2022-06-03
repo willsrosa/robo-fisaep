@@ -14,9 +14,9 @@ const axios = require('axios');
 const port = 2096;
 
 
-  var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
-  var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
-  var credentials = { key: privateKey, cert: certificate };
+   var privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+   var certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+   var credentials = { key: privateKey, cert: certificate };
 
 const app = express();
  const server = https.createServer(credentials, app);
@@ -79,6 +79,11 @@ client.on('message', async msg => {
               client.sendMessage("120363039348257323@g.us", msg.selectedRowId);
             }
   
+            if (msg.selectedRowId.toUpperCase().includes("JULIANA GALES")) {
+              client.sendMessage("120363025794295121@g.us", msg.selectedRowId);
+            }
+  
+
   
             if (msg.selectedRowId.toUpperCase().includes("BEATRIZ NALIM")) {
               client.sendMessage("120363038291296660@g.us", msg.selectedRowId);
@@ -113,7 +118,48 @@ client.on('message', async msg => {
   
           }
           else if (msg.body == "Não") {
-            msg.reply('Ok, agradeço pelo retorno, surgindo novo paciente próximo a sua área de atendimento entraremos em contato😃')
+            msg.reply('Ok, agradeço pelo retorno, surgindo novo paciente próximo a sua área de atendimento entraremos em contato😃');
+            client.sendMessage("120363022690336998@g.us", msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+  
+            if (msg.selectedRowId.toUpperCase().includes("THAIS ALVES")) {
+              client.sendMessage("120363039348257323@g.us", msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+            }
+  
+            if (msg.selectedRowId.toUpperCase().includes("JULIANA GALES")) {
+              client.sendMessage("120363025794295121@g.us",msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+            }
+  
+
+            if (msg.selectedRowId.toUpperCase().includes("BEATRIZ NALIM")) {
+              client.sendMessage("120363038291296660@g.us", msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+            }
+  
+            if (msg.selectedRowId.toUpperCase().includes("BIANCA NASCIMENTO")) {
+              client.sendMessage("120363039945172091@g.us", msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+            }
+  
+            if (msg.selectedRowId.toUpperCase().includes("THAIS RODRIGUES")) {
+              client.sendMessage("120363024013484590@g.us", msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+            }
+  
+            if (msg.selectedRowId.toUpperCase().includes("JULIANA SOUZA")) {
+              client.sendMessage("120363040378100634@g.us", msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+            }
+            if (msg.selectedRowId.toUpperCase().includes("ANNE OLIVEIRA")) {
+              client.sendMessage("120363039377213562@g.us", msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+            }
+            if (msg.selectedRowId.toUpperCase().includes("ANNA BEATRIZ")) {
+              client.sendMessage("120363038774243623@g.us", msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+            }
+            if (msg.selectedRowId.toUpperCase().includes("BENE SOUZA")) {
+              client.sendMessage("120363023390637872@g.us", msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+            }
+            if (msg.selectedRowId.toUpperCase().includes("HAYNE SEJANI")) {
+              client.sendMessage("120363023276101126@g.us", msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+            }
+            if (msg.selectedRowId.toUpperCase().includes("PAMELA SOUZA")) {
+              client.sendMessage("120363039562349093@g.us", msg.selectedRowId.replace("Aceitou","*Não Aceitou*"));
+            }
           }
         } else {
           msg.reply('Sou uma inteligência artificial, não entendi sua mensagem por favor selecione o botão enviado pelo operador!😃')
@@ -160,7 +206,7 @@ app.post('/send-message', (req, res) => {
     const sender = req.body.sender;
   
     // const client = sessions.find(sess => sess.id == sender).client;
-    client.sendMessage(number, new List(' ', 'Clique aqui para selecionar', [{ title: 'Selecione a ação desejada', rows: [{ id: id, title: 'Sim', description: '' }, { title: 'Não' }] }], 'Selecione SIM ou NÃO', ''), { caption: '' }).then(response => {
+    client.sendMessage(number, new List(' ', 'Clique aqui para selecionar', [{ title: 'Selecione a ação desejada', rows: [{ id: id, title: 'Sim', description: '' }, {id:id, title: 'Não',description:'' }] }], 'Selecione SIM ou NÃO', ''), { caption: '' }).then(response => {
       res.status(200).json({
         status: true,
         response: response
